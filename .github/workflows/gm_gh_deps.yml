@@ -44,8 +44,22 @@ jobs:
       - name: "Merge dependencies"
         run: |
           cd "$GITHUB_WORKSPACE/";
-          git clone --single-branch --no-tags
-          sleep 1;
+          while IFS=$'\t' read -r url branch _; do
+            echo "Cloning $url@$branch"
+            git clone --no-tags "$url" --single-branch --branch "$branch" working
+
+            echo "Removing git dirs"
+            rm -rfv ./working/.git*
+
+            echo "Removing top-level files"
+            find ./working -maxdepth 1 -type f -exec rm -fv {} \;
+
+            echo "Moving contents into root"
+            cp -r ./working/* ./project/
+
+            echo "Removing working dir"
+            rm -rfv ./working
+          done < <(yq e '.dependencies[] | [.url, .branch] | @tsv' ${{ inputs.config-file }})
 
       - name: "Git status"
         run: |
