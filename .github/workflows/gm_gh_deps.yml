@@ -37,11 +37,8 @@ jobs:
 
       - name: "Install YQ"
         run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64
-          sudo add-apt-repository ppa:rmescandon/yq;
-          sudo apt update;
-          sudo apt install yq -y;
-          yq --version
+          wget https://github.com/mikefarah/yq/releases/download/v4.20.2/yq_linux_amd64 -O /usr/bin/yq &&\
+          chmod +x /usr/bin/yq
 
       - name: "Merge dependencies"
         run: |
