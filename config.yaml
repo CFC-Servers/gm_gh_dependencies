@@ -1,0 +1,10 @@
+---
+
+dependencies:
+  - Logger:
+    url: git@github.com:CFC-Servers/gm_logger.git
+    branch: lua
+
+  - Mixpanel:
+    url: git@github.com:CFC-Servers/gm_mixpanel.git
+    branch: lua
