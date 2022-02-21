@@ -41,25 +41,26 @@ jobs:
           sudo add-apt-repository ppa:rmescandon/yq;
           sudo apt update;
           sudo apt install yq -y;
+          yq --version
 
       - name: "Merge dependencies"
         run: |
           cd "$GITHUB_WORKSPACE/";
           while IFS=$'\t' read -r url branch _; do
-            echo "Cloning $url@$branch"
-            git clone --no-tags "$url" --single-branch --branch "$branch" working
+            echo "Cloning $url@$branch";
+            git clone --no-tags "$url" --single-branch --branch "$branch" working;
 
-            echo "Removing git dirs"
-            rm -rfv ./working/.git*
+            echo "Removing git dirs";
+            rm -rfv ./working/.git*;
 
-            echo "Removing top-level files"
+            echo "Removing top-level files";
             find ./working -maxdepth 1 -type f -exec rm -fv {} \;
 
-            echo "Moving contents into root"
-            cp -r ./working/* ./project/
+            echo "Moving contents into root";
+            cp -r ./working/* ./project/;
 
-            echo "Removing working dir"
-            rm -rfv ./working
+            echo "Removing working dir";
+            rm -rfv ./working;
           done < <(yq e '.dependencies[] | [.url, .branch] | @tsv' ${{ inputs.config-file }})
 
       - name: "Git status"
