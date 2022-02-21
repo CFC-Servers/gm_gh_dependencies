@@ -58,7 +58,7 @@ jobs:
 
             echo "Removing working dir";
             rm -rfv ./working;
-          done < <(yq e '.dependencies[] | [.url, .branch] | @tsv' ${{ inputs.config-file }})
+          done < <(yq e '.dependencies[] | [.url, .branch] | @tsv' ./project/${{ inputs.config-file }})
 
       - name: "Git status"
         run: |
