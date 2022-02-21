@@ -2,23 +2,24 @@ name: "Gmod Github Dependencies"
 
 on:
   workflow_call:
-    config-file:
-      type: string
-      description: "Path to the dependency config YAML"
-      default: "gm_dependencies.yml"
-      required: false
+    inputs:
+      config-file:
+        type: string
+        description: "Path to the dependency config YAML"
+        default: "gm_dependencies.yml"
+        required: false
 
-    input-branch:
-      type: string
-      description: "Which branch to merge dependencies into"
-      default: ${{ github.event.repository.default_branch }}
-      required: false
+      input-branch:
+        type: string
+        description: "Which branch to merge dependencies into"
+        default: ${{ github.event.repository.default_branch }}
+        required: false
 
-    output-branch:
-      type: string
-      description: "Which branch to force-push the merged dependency code to"
-      default: "with-deps"
-      required: false
+      output-branch:
+        type: string
+        description: "Which branch to force-push the merged dependency code to"
+        default: "with-deps"
+        required: false
 
 jobs:
   obfuscate:
